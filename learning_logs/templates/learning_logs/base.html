@@ -1,6 +1,6 @@
 <p>
-    <a href="{% url 'index' %}">Learning Log</a> - 
-    <a href="{% url 'topics' %}">Tópicos</a>
+    <a href="{% url 'index' %}">Página Inicial</a> - 
+    <a href="{% url 'topics' %}">Meus Tópicos</a>
     {% if user.is_authenticated %}
         Olá, {{user.username}}
         <a href="{% url 'logout' %}">Sair</a>

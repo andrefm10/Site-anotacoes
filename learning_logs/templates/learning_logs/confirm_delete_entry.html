@@ -1,0 +1,16 @@
+{% extends "learning_logs/base.html" %}
+
+
+{% block content %}
+
+    <h2>Confirmação de Exclusão</h2>
+    <p>Tem certeza de que deseja excluir a anotação abaixo?</p>
+    <p>{{ entry.text | linebreaks }}</p>
+
+    <form action="{% url 'delete_entry' entry.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, excluir</button>
+        <a href="{% url 'topic' topic.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+{% endblock content %}

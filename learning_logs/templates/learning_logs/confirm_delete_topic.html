@@ -1,0 +1,16 @@
+{% extends "learning_logs/base.html" %}
+
+
+{% block content %}
+
+    <h2>Confirmação de Exclusão</h2>
+    <p>Tem certeza de que deseja excluir o tópico abaixo?</p>
+    <p>{{topic}}</p>
+
+    <form action="{% url 'delete_topic' topic.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, excluir</button>
+        <a href="{% url 'topics' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+{% endblock content %}

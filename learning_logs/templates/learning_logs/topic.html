@@ -16,6 +16,7 @@
             <p>{{entry.text | linebreaks }}</p>
             <p>
                 <a href="{%url 'edit_entry' entry.id%}">Editar anotação</a>
+                <a href="{%url 'delete_entry' entry.id%}">Deletar anotação</a>
             </p>
         </li>
 
@@ -30,5 +31,8 @@
     </ul>
 
     <p><a href="{% url 'new_entry' topic.id %}">Adicione uma nova anotação</a></p>
-    
+    <p><a href="{% url 'delete_topic' topic.id%}">Deletar este tópico</a></p>
+
 {% endblock content %}
+
+

@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required 
 #Decorator é uma forma simples de alterar comportamento de uma funcao sem mudar codigo.
+from django.contrib import messages
 
 # Create your views here.
 
@@ -95,3 +96,36 @@ def edit_entry(request,entry_id):
 
     context = {'entry': entry, 'topic': topic, 'form': form} #tudo q a pagina poderá usar 
     return render(request,'learning_logs/edit_entry.html',context)
+
+@login_required    
+def delete_entry(request,entry_id):
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+
+    #garante que o assunto pertecera ao usuario certo
+    if topic.owner != request.user:
+        return HttpResponseRedirect(reverse('404'))
+
+    if request.method == 'POST':
+        entry.delete()
+        messages.success(request, 'Anotação excluída com sucesso.')
+        return HttpResponseRedirect(reverse('topic', args=[topic.id]))
+
+    context = {'entry': entry, 'topic': topic} #tudo q a pagina poderá usar 
+    return render(request,'learning_logs/confirm_delete_entry.html', context)
+
+@login_required
+def delete_topic(request,topic_id):
+    topic = Topic.objects.get(id=topic_id)
+
+    #garante que o assunto pertecera ao usuario certo
+    if topic.owner != request.user:
+        return HttpResponseRedirect(reverse('404'))
+    
+    if request.method == 'POST':
+        topic.delete()
+        messages.success(request, 'Tópico excluído com sucesso.')
+        return HttpResponseRedirect(reverse('topics'))
+    
+    context = {'topic': topic} #tudo q a pagina poderá usar 
+    return render(request,'learning_logs/confirm_delete_topic.html', context)
